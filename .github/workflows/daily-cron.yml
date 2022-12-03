@@ -14,3 +14,7 @@ jobs:
         with:
           node-version: 19
       - run: node post-daily.mjs
+        env:
+          AOC_URL: ${{ secrets.AOC_URL }}
+          AOC_COOKIE: ${{ secrets.AOC_COOKIE }}
+          SLACK_HOOK: ${{ secrets.SLACK_HOOK }}
