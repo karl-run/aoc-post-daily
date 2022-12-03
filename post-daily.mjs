@@ -27,7 +27,7 @@ const mappedData = Object.values(result.members)
   .sort((a, b) => b.score - a.score);
 
 // Post the scoreboard to Slack using markdown
-const slackResult = await fetch(process.env.SLACK_HOOK, {
+const slackResult = await fetch(process.env.SLACK_HOOK_FG_FUNKPROG, {
   method: "POST",
   body: JSON.stringify({
     blocks: [
