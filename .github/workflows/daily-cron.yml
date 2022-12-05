@@ -1,5 +1,8 @@
 name: daily-cron
 on:
+  push:
+    branches:
+      - chore/test-cookie
   schedule:
     - cron: '00 05 * * *'
 jobs:
