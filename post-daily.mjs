@@ -11,12 +11,10 @@ const result = await fetch(process.env.AOC_URL, {
 // Extract what we need from the data
 const mappedData = Object.values(result.members)
   .map((member) => {
-    const days = new Array(daysSinceFirst)
-      .fill({ status: "Unfinished" })
-      .map((it, index) => {
-        const day = member.completion_day_level[(index + 1).toString()];
-        return day != null ? { status: getDayStatus(day) } : it;
-      });
+    const days = new Array(daysSinceFirst).fill({ status: "Unfinished" }).map((it, index) => {
+      const day = member.completion_day_level[(index + 1).toString()];
+      return day != null ? { status: getDayStatus(day) } : it;
+    });
 
     return {
       name: member.name,
@@ -88,7 +86,7 @@ function createStars(days) {
         case "Partial":
           return "☆";
         default:
-          return "﹡";
+          return "♢";
       }
     })
     .join("");
@@ -96,11 +94,16 @@ function createStars(days) {
 
 function createScoreboardMarkdown(mappedData) {
   return mappedData
-    .map(
-      (it, index) =>
-        `${index + 1}) ${it.score.toString().padEnd(3, " ")}\t${createStars(
-          it.days
-        )} \t\t${it.name}`
-    )
+    .map((it, index) => {
+      if (daysSinceFirst > 14) {
+        // After the 15th, split into two lines of 12 each
+        return `${index + 1}) ${it.score.toString().padEnd(3, " ")} ${it.name}\n${createStars(
+          it.days.slice(0, 12)
+        )}\n${createStars(it.days.slice(12))}`;
+      } else {
+        // Until then, keep it 1 line
+        return `${index + 1}) ${it.score.toString().padEnd(3, " ")} ${it.name}\n${createStars(it.days)}`;
+      }
+    })
     .join("\n");
 }
