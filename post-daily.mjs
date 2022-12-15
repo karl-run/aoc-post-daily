@@ -38,6 +38,13 @@ const slackBody = {
       type: "section",
       text: {
         type: "mrkdwn",
+        text: `https://adventofcode.com/2022/day/${daysSinceFirst}`,
+      },
+    },
+    {
+      type: "section",
+      text: {
+        type: "mrkdwn",
         text: createScoreboardMarkdown(mappedData),
       },
     },
@@ -46,7 +53,7 @@ const slackBody = {
       elements: [
         {
           type: "mrkdwn",
-          text: `Postes daglig 22:00, kilde: https://github.com/karl-run/aoc-post-daily`,
+          text: `Postes daglig 06:00, kilde: https://github.com/karl-run/aoc-post-daily`,
         },
       ],
     },
