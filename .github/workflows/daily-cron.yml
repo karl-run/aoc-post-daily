@@ -1,5 +1,6 @@
 name: daily-cron
 on:
+  workflow_dispatch:
   schedule:
     - cron: '00 05 * * *'
 jobs:
