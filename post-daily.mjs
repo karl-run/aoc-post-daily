@@ -1,5 +1,12 @@
 const daysSinceFirst = new Date().getDate();
 
+console.info(`
+  Required envs:
+    AOC_URL: ${process.env.AOC_URL?.length ?? "Missing!!"}
+    AOC_COOKIE: ${process.env.AOC_COOKIE?.length ?? "Missing!!"}
+    SLACK_HOOK_AOC: ${process.env.SLACK_HOOK_AOC?.length ?? "Missing!!"}
+`);
+
 // Get the scoreboard data from Advent of Code
 const result = await fetch(process.env.AOC_URL, {
   method: "GET",
@@ -8,13 +15,17 @@ const result = await fetch(process.env.AOC_URL, {
   },
 }).then((res) => res.json());
 
+console.info("Got leaderboard from AOC!");
+
 // Extract what we need from the data
 const mappedData = Object.values(result.members)
   .map((member) => {
-    const days = new Array(daysSinceFirst).fill({ status: "Unfinished" }).map((it, index) => {
-      const day = member.completion_day_level[(index + 1).toString()];
-      return day != null ? { status: getDayStatus(day) } : it;
-    });
+    const days = new Array(daysSinceFirst)
+      .fill({ status: "Unfinished" })
+      .map((it, index) => {
+        const day = member.completion_day_level[(index + 1).toString()];
+        return day != null ? { status: getDayStatus(day) } : it;
+      });
 
     return {
       name: member.name,
@@ -60,11 +71,15 @@ const slackBody = {
   ],
 };
 
+console.info("Created body. Posting to Slack...");
+
 // Post the scoreboard to Slack using markdown
 const slackResult = await fetch(process.env.SLACK_HOOK_AOC, {
   method: "POST",
   body: JSON.stringify(slackBody),
 });
+
+console.log("Posted to Slack!");
 
 // Need to process.exit(1) to make GHA fail if the script fails
 if (!slackResult.ok) {
@@ -104,12 +119,16 @@ function createScoreboardMarkdown(mappedData) {
     .map((it, index) => {
       if (daysSinceFirst > 14) {
         // After the 15th, split into two lines of 12 each
-        return `${index + 1}) ${it.score.toString().padEnd(3, " ")} ${it.name}\n${createStars(
-          it.days.slice(0, 12)
-        )}\n${createStars(it.days.slice(12))}`;
+        return `${index + 1}) ${it.score.toString().padEnd(3, " ")} ${
+          it.name
+        }\n${createStars(it.days.slice(0, 12))}\n${createStars(
+          it.days.slice(12)
+        )}`;
       } else {
         // Until then, keep it 1 line
-        return `${index + 1}) ${it.score.toString().padEnd(3, " ")} ${it.name}\n${createStars(it.days)}`;
+        return `${index + 1}) ${it.score.toString().padEnd(3, " ")} ${
+          it.name
+        }\n${createStars(it.days)}`;
       }
     })
     .join("\n");
