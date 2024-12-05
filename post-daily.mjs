@@ -49,7 +49,7 @@ const slackBody = {
       type: "section",
       text: {
         type: "mrkdwn",
-        text: `https://adventofcode.com/2023/day/${daysSinceFirst}`,
+        text: `https://adventofcode.com/2024/day/${daysSinceFirst}`,
       },
     },
     {
