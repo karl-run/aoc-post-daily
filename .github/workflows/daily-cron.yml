@@ -15,4 +15,4 @@ jobs:
         env:
           AOC_URL: ${{ secrets.AOC_URL }}
           AOC_COOKIE: ${{ secrets.AOC_COOKIE }}
-          SLACK_HOOK: ${{ secrets.SLACK_HOOK_AOC }}
+          SLACK_HOOK_AOC: ${{ secrets.SLACK_HOOK_AOC }}
