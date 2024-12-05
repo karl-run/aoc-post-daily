@@ -15,5 +15,4 @@ jobs:
         env:
           AOC_URL: ${{ secrets.AOC_URL }}
           AOC_COOKIE: ${{ secrets.AOC_COOKIE }}
-          SLACK_HOOK: ${{ secrets.SLACK_HOOK }}
-          SLACK_HOOK_FG_FUNKPROG: ${{ secrets.SLACK_HOOK_FG_FUNKPROG }}
+          SLACK_HOOK: ${{ secrets.SLACK_HOOK_AOC }}
