@@ -61,7 +61,7 @@ const slackBody = {
 };
 
 // Post the scoreboard to Slack using markdown
-const slackResult = await fetch(process.env.SLACK_HOOK_FG_FUNKPROG, {
+const slackResult = await fetch(process.env.SLACK_HOOK_AOC, {
   method: "POST",
   body: JSON.stringify(slackBody),
 });
